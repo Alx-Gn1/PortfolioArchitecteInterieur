@@ -167,9 +167,9 @@ export const successWorkUploadAnim = () => {
   successLogo.setAttribute("class", "fa-regular fa-circle-check successLogo");
   submitFormButton.after(successLogo);
   setTimeout(() => {
-    successLogo.style = "bottom:72px";
+    successLogo.style = "bottom:80px";
   }, 1);
   setTimeout(() => {
-    successLogo.style = "bottom:72px;opacity:0";
-  }, 200);
+    successLogo.style = "bottom:80px;opacity:0";
+  }, 100);
 };

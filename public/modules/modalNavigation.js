@@ -1,3 +1,11 @@
+import { createModalGallery } from "./modal.js";
+
+export const openModal = (workList) => {
+  const modal = document.getElementById("modal");
+  modal.showModal();
+  createModalGallery(workList);
+};
+
 export const closeModal = () => {
   const modal = document.getElementById("modal");
   modal.close();
@@ -27,6 +35,7 @@ export const modalNavigate = () => {
 
       saveChangeButton.style = "display : block";
       addPictureForm.style = "display : flex";
+
       deleteGalleryButton.style = "display : none";
       addPictureButton.style = "display : none";
       hideModalGallery();

@@ -1,6 +1,7 @@
 import { getWorks, displayWorkGallery, getInUseCategories, displayFilters } from "./modules/gallery.js";
 import { showEditUi, showLogoutButton, hideEditUi } from "./modules/editUi.js";
-import { openModal, handleModal, setupDeleteGalleryButton } from "./modules/modal.js";
+import { handleModal } from "./modules/modal.js";
+import { openModal } from "./modules/modalNavigation.js";
 
 // Verify if a user is logged in
 const userToken = sessionStorage.getItem("userToken");
@@ -16,15 +17,8 @@ const App = async () => {
     displayFilters(inUseCategories);
   } else {
     showEditUi(openModal, workList);
-    showLogoutButton({
-      onLogout: () => {
-        sessionStorage.removeItem("userToken");
-        displayFilters(inUseCategories);
-        hideEditUi();
-      },
-    });
-    handleModal();
-    setupDeleteGalleryButton(workList);
+    showLogoutButton();
+    handleModal(workList);
   }
 };
 

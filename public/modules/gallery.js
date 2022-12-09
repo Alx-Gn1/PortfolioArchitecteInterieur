@@ -1,11 +1,22 @@
 // Get works from api
+const getWorks = async () => {
+  const getWorksHeaders = new Headers({ "content-type": "application/json" });
+  // get the work list
+  const workList = await fetch("http://localhost:5678/api/works", {
+    method: "GET",
+    headers: getWorksHeaders,
+  }).then((res) => res.json());
+
+  return workList;
+};
+
 const displayWorkGallery = (workList) => {
   const gallery = document.querySelector(".gallery");
 
   // Check if there is already a gallery, do not generate 2 time the same image/work
   const imagesAlreadyInGallery = new Set([]);
   for (const child of gallery.children) {
-    // Rappel : image id = "workId-XXXX"
+    // Rappel : image class = " ...workId-XXXX"
     const imageId = Number(child.getAttribute("class").split("-").pop());
     imagesAlreadyInGallery.add(imageId);
   }
@@ -41,19 +52,6 @@ const displayWorkGallery = (workList) => {
   workElements.forEach((element) => {
     if (element !== null) gallery.appendChild(element);
   });
-
-  // gallery.replaceChildren(...workElements.filter((element) => element !== null));
-};
-
-const getWorks = async () => {
-  const getWorksHeaders = new Headers({ "content-type": "application/json" });
-  // get the work list
-  const workList = await fetch("http://localhost:5678/api/works", {
-    method: "GET",
-    headers: getWorksHeaders,
-  }).then((res) => res.json());
-
-  return workList;
 };
 
 // Create filter & gallery elements
@@ -78,7 +76,7 @@ const filterGallery = (filter) => {
   const gallery = new Set(document.querySelectorAll(".gallery figure"));
 
   gallery.forEach((element) => {
-    filter === "Tous" || element.className === filter
+    filter === "Tous" || element.className.split(" ")[0] === filter
       ? element.setAttribute("style", "display:block")
       : element.setAttribute("style", "display:none");
   });
@@ -88,7 +86,14 @@ const handleFilters = () => {
   let currentlySelectedFilter = "Tous";
   const filterButtons = document.getElementsByClassName("filterButton");
 
-  const selectFilter = (filter) => {
+  for (let i = 0; i < filterButtons.length; i++) {
+    const name = filterButtons[i].getAttribute("name");
+    filterButtons[i].addEventListener("click", () => {
+      selectFilter(name);
+    });
+  }
+
+  function selectFilter(filter) {
     if (filter === currentlySelectedFilter) return;
 
     currentlySelectedFilter = filter;
@@ -99,13 +104,6 @@ const handleFilters = () => {
         : element.setAttribute("class", "filterButton");
     }
     filterGallery(filter.split(" ")[0]);
-  };
-
-  for (let i = 0; i < filterButtons.length; i++) {
-    const name = filterButtons[i].attributes.getNamedItem("name").value;
-    filterButtons[i].addEventListener("click", () => {
-      selectFilter(name);
-    });
   }
 };
 

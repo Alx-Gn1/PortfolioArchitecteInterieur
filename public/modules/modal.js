@@ -31,7 +31,18 @@ const addCategoriesToForm = (categories) => {
 
 export const createModalGallery = (workList) => {
   const modalGallery = document.querySelector(".modalGallery");
+
+  const imagesAlreadyInGallery = new Set([]);
+  for (const child of modalGallery.children) {
+    // Rappel : image class = " ...workId-XXXX"
+    const imageId = Number(child.getAttribute("class").split("-").pop());
+    imagesAlreadyInGallery.add(imageId);
+  }
+
   const imageBoxes = workList.map((work) => {
+    if (imagesAlreadyInGallery.has(work.id)) {
+      return null;
+    }
     const imageBox = document.createElement("figure");
     imageBox.setAttribute("class", "imageBox workId-" + work.id);
 
@@ -71,8 +82,11 @@ export const createModalGallery = (workList) => {
 
     return imageBox;
   });
-  //   modalGallery.hasChildNodes ? modalGallery.replaceChildren(...imageBoxes) : modalGallery.appendChild();
-  modalGallery.replaceChildren(...imageBoxes);
+
+  imageBoxes.forEach((element) => {
+    console.log(element);
+    if (element !== null) modalGallery.appendChild(element);
+  });
 };
 
 const listenFormResults = () => {
@@ -102,6 +116,7 @@ const listenFormResults = () => {
 
     if (verifyImage(imageInput.files[0]) !== true) {
       alert(verifyImage(imageInput.files[0]));
+      submitAnim.stop();
       return;
     } else if (categoryInput.value.length < 1 || titleInput.value.length < 1) {
       alert("Vérifiez que vous avez correctement rempli les champs Titre & Catégorie");
@@ -125,13 +140,13 @@ const listenFormResults = () => {
           refreshGalleriesAfterChange().then(() => {
             modalNavigate().toGallery();
           });
-        }, 500);
+        }, 300);
       }
     });
   });
 };
 
-export const setupDeleteGalleryButton = (workList) => {
+const setupDeleteGalleryButton = (workList) => {
   const delButton = document.getElementById("deleteGallery");
 
   delButton.addEventListener("click", () => {
@@ -182,16 +197,11 @@ export const setupDeleteGalleryButton = (workList) => {
   });
 };
 
-export const openModal = (workList) => {
-  const modal = document.getElementById("modal");
-  modal.showModal();
-  createModalGallery(workList);
-};
-
-export const handleModal = async () => {
+export const handleModal = async (workList) => {
   const categories = await getCategories();
   // Event listeners to close the modal & to navigate beetween gallery & form
   setupModalNavigation();
+  setupDeleteGalleryButton(workList);
 
   addCategoriesToForm(categories);
   listenFormResults();
