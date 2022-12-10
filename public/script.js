@@ -1,5 +1,5 @@
 import { getWorks, displayWorkGallery, getInUseCategories, displayFilters } from "./modules/gallery.js";
-import { showEditUi, showLogoutButton, hideEditUi } from "./modules/editUi.js";
+import { showEditUi, showLogoutButton } from "./modules/editUi.js";
 import { handleModal } from "./modules/modal.js";
 import { openModal } from "./modules/modalNavigation.js";
 
@@ -7,7 +7,7 @@ import { openModal } from "./modules/modalNavigation.js";
 const userToken = sessionStorage.getItem("userToken");
 // console.log(userToken);
 
-const App = async () => {
+const HomePage = async () => {
   // Main variables
   const workList = await getWorks();
   const inUseCategories = getInUseCategories(workList);
@@ -22,4 +22,4 @@ const App = async () => {
   }
 };
 
-App();
+HomePage();

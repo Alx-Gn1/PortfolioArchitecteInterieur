@@ -84,7 +84,6 @@ export const createModalGallery = (workList) => {
   });
 
   imageBoxes.forEach((element) => {
-    console.log(element);
     if (element !== null) modalGallery.appendChild(element);
   });
 };

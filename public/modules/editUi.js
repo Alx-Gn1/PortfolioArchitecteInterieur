@@ -29,7 +29,7 @@ export const hideEditUi = () => {
 };
 
 export const showLogoutButton = () => {
-  const loginButton = document.querySelector("a[href='./login.html']");
+  const loginButton = document.querySelector("a[href='./login']");
   loginButton.style = "display : none";
   const logoutButton = document.createElement("a");
   logoutButton.appendChild(document.createTextNode("logout"));
@@ -37,6 +37,7 @@ export const showLogoutButton = () => {
 
   logoutButton.addEventListener("click", () => {
     sessionStorage.removeItem("userToken");
+
     getWorks().then((workList) => {
       displayFilters(getInUseCategories(workList));
     });

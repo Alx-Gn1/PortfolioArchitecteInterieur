@@ -4,10 +4,7 @@ import { createModalGallery } from "./modal.js";
 export const verifyImage = (image) => {
   if ((image && image.type === "image/png") || (image && image.type === "image/jpeg")) {
     if (image.size <= 4194304) {
-      if (image.name.length < 40) {
-        return true;
-      }
-      return "Le nom du fichier ne doit pas faire plus de 40 caractères";
+      return true;
     }
     return "L'image doit peser 4Mo maximum !\n\nTaille actuelle: " + Math.round(image.size / 1048576) + "Mo";
   }
