@@ -96,7 +96,9 @@ const listenFormResults = () => {
   //
   imageInput.addEventListener("change", () => {
     const image = imageInput.files[0];
-    if (verifyImage(image) !== true) {
+    if (!image) {
+      return;
+    } else if (verifyImage(image) !== true) {
       alert(verifyImage(image));
       return;
     }
