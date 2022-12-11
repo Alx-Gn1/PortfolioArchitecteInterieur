@@ -29,65 +29,6 @@ const addCategoriesToForm = (categories) => {
   });
 };
 
-export const createModalGallery = (workList) => {
-  const modalGallery = document.querySelector(".modalGallery");
-
-  const imagesAlreadyInGallery = new Set([]);
-  for (const child of modalGallery.children) {
-    // Rappel : image class = " ...workId-XXXX"
-    const imageId = Number(child.getAttribute("class").split("-").pop());
-    imagesAlreadyInGallery.add(imageId);
-  }
-
-  const imageBoxes = workList.map((work) => {
-    if (imagesAlreadyInGallery.has(work.id)) {
-      return null;
-    }
-    const imageBox = document.createElement("figure");
-    imageBox.setAttribute("class", "imageBox workId-" + work.id);
-
-    const imageBackground = document.createElement("div");
-    fetch(work.imageUrl)
-      .then((res) => res.blob())
-      .then((imageBlob) => {
-        const imageObjectURL = URL.createObjectURL(imageBlob);
-        imageBackground.setAttribute("style", "background-image : url(" + imageObjectURL + ")");
-        imageBackground.setAttribute("class", "imageBackground");
-      });
-
-    const buttonContainer = document.createElement("div");
-    buttonContainer.setAttribute("class", "imgBtnContainer");
-
-    const editButton = document.createElement("figcaption");
-    const caption = document.createTextNode("éditer");
-    editButton.appendChild(caption);
-
-    const deleteButton = document.createElement("button");
-    deleteButton.addEventListener("click", () => {
-      deleteWork(work.id).then((res) => {
-        if (res.status == 200 || res.status == 204) {
-          imageBox.remove();
-        }
-      });
-    });
-
-    const trashIcon = document.createElement("i");
-    trashIcon.setAttribute("class", "fa-solid fa-trash-can");
-    deleteButton.appendChild(trashIcon);
-
-    buttonContainer.appendChild(editButton);
-    buttonContainer.appendChild(deleteButton);
-    imageBox.appendChild(imageBackground);
-    imageBox.appendChild(buttonContainer);
-
-    return imageBox;
-  });
-
-  imageBoxes.forEach((element) => {
-    if (element !== null) modalGallery.appendChild(element);
-  });
-};
-
 const listenFormResults = () => {
   const form = document.getElementById("addPictureForm");
   const imageInput = document.getElementById("imageInput");
@@ -96,7 +37,9 @@ const listenFormResults = () => {
   //
   imageInput.addEventListener("change", () => {
     const image = imageInput.files[0];
-    if (verifyImage(image) !== true) {
+    if (!image) {
+      return;
+    } else if (verifyImage(image) !== true) {
       alert(verifyImage(image));
       return;
     }
@@ -196,7 +139,67 @@ const setupDeleteGalleryButton = (workList) => {
   });
 };
 
+export const createModalGallery = (workList) => {
+  const modalGallery = document.querySelector(".modalGallery");
+
+  const imagesAlreadyInGallery = new Set([]);
+  for (const child of modalGallery.children) {
+    // Rappel : image class = " ...workId-XXXX"
+    const imageId = Number(child.getAttribute("class").split("-").pop());
+    imagesAlreadyInGallery.add(imageId);
+  }
+
+  const imageBoxes = workList.map((work) => {
+    if (imagesAlreadyInGallery.has(work.id)) {
+      return null;
+    }
+    const imageBox = document.createElement("figure");
+    imageBox.setAttribute("class", "imageBox workId-" + work.id);
+
+    const imageBackground = document.createElement("div");
+    fetch(work.imageUrl)
+      .then((res) => res.blob())
+      .then((imageBlob) => {
+        const imageObjectURL = URL.createObjectURL(imageBlob);
+        imageBackground.setAttribute("style", "background-image : url(" + imageObjectURL + ")");
+        imageBackground.setAttribute("class", "imageBackground");
+      });
+
+    const buttonContainer = document.createElement("div");
+    buttonContainer.setAttribute("class", "imgBtnContainer");
+
+    const editButton = document.createElement("figcaption");
+    const caption = document.createTextNode("éditer");
+    editButton.appendChild(caption);
+
+    const deleteButton = document.createElement("button");
+    deleteButton.addEventListener("click", () => {
+      deleteWork(work.id).then((res) => {
+        if (res.status == 200 || res.status == 204) {
+          imageBox.remove();
+        }
+      });
+    });
+
+    const trashIcon = document.createElement("i");
+    trashIcon.setAttribute("class", "fa-solid fa-trash-can");
+    deleteButton.appendChild(trashIcon);
+
+    buttonContainer.appendChild(editButton);
+    buttonContainer.appendChild(deleteButton);
+    imageBox.appendChild(imageBackground);
+    imageBox.appendChild(buttonContainer);
+
+    return imageBox;
+  });
+
+  imageBoxes.forEach((element) => {
+    if (element !== null) modalGallery.appendChild(element);
+  });
+};
+
 export const handleModal = async (workList) => {
+  createModalGallery(workList);
   const categories = await getCategories();
   // Event listeners to close the modal & to navigate beetween gallery & form
   setupModalNavigation();

@@ -1,8 +1,3 @@
-const form = document.forms["loginForm"];
-form.addEventListener("submit", (event) => {
-  event.preventDefault();
-});
-
 const displayErrorMessage = (message) => {
   // If no message is given to the function, it clear all error message
 
@@ -49,10 +44,13 @@ const loginUser = async (email, password) => {
   }
 };
 
-// Event listeners
+//
+
+//
+
 const emailInput = form.email;
 const passwordInput = form.password;
-const loginButton = form.loginButton;
+const form = document.forms["loginForm"];
 
 let email;
 let password;
@@ -64,7 +62,8 @@ passwordInput.addEventListener("input", (e) => {
   password = e.target.value;
 });
 
-loginButton.addEventListener("click", () => {
+form.addEventListener("submit", (event) => {
+  event.preventDefault();
   //
   if (emailInput.reportValidity() && passwordInput.reportValidity()) {
     clearErrorMessage();

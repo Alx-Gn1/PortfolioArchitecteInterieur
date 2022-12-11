@@ -3,7 +3,6 @@ import { createModalGallery } from "./modal.js";
 export const openModal = (workList) => {
   const modal = document.getElementById("modal");
   modal.showModal();
-  createModalGallery(workList);
 };
 
 export const closeModal = () => {

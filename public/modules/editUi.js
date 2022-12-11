@@ -1,6 +1,7 @@
 import { displayFilters, getInUseCategories, getWorks } from "./gallery.js";
+import { openModal } from "./modalNavigation.js";
 
-export const showEditUi = (openModal, workList) => {
+export const showEditUi = () => {
   const editHeader = document.getElementById("editHeader");
   const header = document.querySelector("header");
   const editButtons = document.querySelectorAll(".editButton");
@@ -13,7 +14,7 @@ export const showEditUi = (openModal, workList) => {
 
   const editGalleryButton = document.getElementById("editGallery");
   editGalleryButton.addEventListener("click", () => {
-    openModal(workList);
+    openModal();
   });
 };
 
