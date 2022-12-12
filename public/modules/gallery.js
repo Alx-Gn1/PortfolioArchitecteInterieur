@@ -81,7 +81,8 @@ const filterGallery = (filter) => {
   });
 };
 
-const selectFilter = (filter) => {
+const selectFilter = (currentlySelectedFilter, filter) => {
+  const filterButtons = document.getElementsByClassName("filterButton");
   if (filter === currentlySelectedFilter) return;
   currentlySelectedFilter = filter;
 
@@ -102,7 +103,7 @@ const handleFilters = () => {
   for (let i = 0; i < filterButtons.length; i++) {
     const filter = filterButtons[i].getAttribute("name");
     filterButtons[i].addEventListener("click", () => {
-      selectFilter(filter);
+      selectFilter(currentlySelectedFilter, filter);
     });
   }
 };

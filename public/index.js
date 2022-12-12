@@ -18,4 +18,4 @@ const HomePage = async () => {
   }
 };
 
-HomePage();
+await HomePage();
