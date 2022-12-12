@@ -2,18 +2,15 @@ import { getWorks, displayWorkGallery, getInUseCategories, displayFilters } from
 import { showEditUi, showLogoutButton } from "./modules/editUi.js";
 import { handleModal } from "./modules/modal.js";
 
-// Verify if a user is logged in
-const userToken = sessionStorage.getItem("userToken");
-// console.log(userToken);
-
 const HomePage = async () => {
   // Main variables
   const workList = await getWorks();
-  const inUseCategories = getInUseCategories(workList);
+  const userToken = sessionStorage.getItem("userToken");
   // Initiate the app
   displayWorkGallery(workList);
+  //
   if (!userToken) {
-    displayFilters(inUseCategories);
+    displayFilters(getInUseCategories(workList));
   } else {
     showEditUi();
     showLogoutButton();

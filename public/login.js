@@ -1,3 +1,5 @@
+const form = document.forms["loginForm"];
+
 const displayErrorMessage = (message) => {
   // If no message is given to the function, it clear all error message
 
@@ -50,7 +52,6 @@ const loginUser = async (email, password) => {
 
 const emailInput = form.email;
 const passwordInput = form.password;
-const form = document.forms["loginForm"];
 
 let email;
 let password;

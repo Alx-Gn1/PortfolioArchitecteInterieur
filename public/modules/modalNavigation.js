@@ -1,6 +1,4 @@
-import { createModalGallery } from "./modal.js";
-
-export const openModal = (workList) => {
+export const openModal = () => {
   const modal = document.getElementById("modal");
   modal.showModal();
 };

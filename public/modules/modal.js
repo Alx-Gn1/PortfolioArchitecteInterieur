@@ -199,9 +199,9 @@ export const createModalGallery = (workList) => {
 };
 
 export const handleModal = async (workList) => {
-  createModalGallery(workList);
   const categories = await getCategories();
   // Event listeners to close the modal & to navigate beetween gallery & form
+  createModalGallery(workList);
   setupModalNavigation();
   setupDeleteGalleryButton(workList);
 

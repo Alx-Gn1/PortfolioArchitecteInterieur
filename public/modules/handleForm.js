@@ -6,7 +6,7 @@ export const verifyImage = (image) => {
     if (image.size <= 4194304) {
       return true;
     }
-    return "L'image doit peser 4Mo maximum !\n\nTaille actuelle: " + Math.round(image.size / 1048576) + "Mo";
+    return "L'image doit peser 4Mo maximum !\n\nTaille actuelle: " + (image.size / 1048576).toFixed(2) + "Mo";
   }
   return "L'image doit être au format png/jpg";
 };
@@ -86,21 +86,10 @@ export const refreshGalleriesAfterChange = async () => {
 };
 
 const deleteWorkFromDOM = (id) => {
-  const gallery = document.querySelector(".gallery");
-  const modalGallery = document.querySelector(".modalGallery");
-
   const itemToDelete = document.querySelectorAll(".workId-" + id);
   itemToDelete.forEach((element) => {
     element.remove();
   });
-
-  // // Check if there is already a gallery, do not generate 2 time the same image/work
-  // for (const child of gallery.children) {
-  //   const imageId = Number(child.getAttribute("id").split("-").pop());
-  //   if (imageId === id) {
-  //     child.remove();
-  //   }
-  // }
 };
 
 export const deleteWork = async (id) => {

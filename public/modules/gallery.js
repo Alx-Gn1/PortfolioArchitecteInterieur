@@ -34,7 +34,6 @@ const displayWorkGallery = (workList) => {
         const imageObjectURL = URL.createObjectURL(imageBlob);
         img.src = imageObjectURL;
       });
-    // img.src = work.imageUrl;
     img.alt = work.title;
 
     const figcaption = document.createElement("figcaption");
@@ -77,9 +76,23 @@ const filterGallery = (filter) => {
 
   gallery.forEach((element) => {
     filter === "Tous" || element.className.split(" ")[0] === filter
-      ? element.setAttribute("style", "display:block")
+      ? element.removeAttribute("style")
       : element.setAttribute("style", "display:none");
   });
+};
+
+const selectFilter = (filter) => {
+  if (filter === currentlySelectedFilter) return;
+  currentlySelectedFilter = filter;
+
+  for (let i = 0; i < filterButtons.length; i++) {
+    const element = filterButtons[i];
+    element.getAttribute("name") === currentlySelectedFilter
+      ? element.setAttribute("class", "filterButton selected")
+      : element.setAttribute("class", "filterButton");
+  }
+
+  filterGallery(filter.split(" ")[0]);
 };
 
 const handleFilters = () => {
@@ -87,28 +100,15 @@ const handleFilters = () => {
   const filterButtons = document.getElementsByClassName("filterButton");
 
   for (let i = 0; i < filterButtons.length; i++) {
-    const name = filterButtons[i].getAttribute("name");
+    const filter = filterButtons[i].getAttribute("name");
     filterButtons[i].addEventListener("click", () => {
-      selectFilter(name);
+      selectFilter(filter);
     });
-  }
-
-  function selectFilter(filter) {
-    if (filter === currentlySelectedFilter) return;
-
-    currentlySelectedFilter = filter;
-    for (let i = 0; i < filterButtons.length; i++) {
-      const element = filterButtons[i];
-      element.attributes.getNamedItem("name").value === currentlySelectedFilter
-        ? element.setAttribute("class", "filterButton selected")
-        : element.setAttribute("class", "filterButton");
-    }
-    filterGallery(filter.split(" ")[0]);
   }
 };
 
-const displayFilters = (categoryList) => {
-  createFiltersHtml(categoryList);
+const displayFilters = (categories) => {
+  createFiltersHtml(categories);
   handleFilters();
 };
 
