@@ -41,7 +41,7 @@ const displayWorkGallery = (workList) => {
     figcaption.appendChild(caption);
 
     const figure = document.createElement("figure");
-    figure.setAttribute("class", work.category.name.split(" ")[0] + " workId-" + work.id);
+    figure.setAttribute("class", "categoryId-" + work.category.id + " workId-" + work.id);
     figure.appendChild(img);
     figure.appendChild(figcaption);
 
@@ -60,12 +60,12 @@ const createFiltersHtml = (categories) => {
   const filters = document.createElement("div");
   filters.setAttribute("class", "filters");
   categories.forEach((category) => {
-    const styleClass = category === "Tous" ? "filterButton selected" : "filterButton";
+    const styleClass = category.name === "Tous" ? "filterButton selected" : "filterButton";
     const button = document.createElement("button");
     button.setAttribute("class", styleClass);
-    button.setAttribute("name", category);
-    button.setAttribute("value", category);
-    button.appendChild(document.createTextNode(category));
+    button.setAttribute("name", category.name);
+    button.setAttribute("value", category.id);
+    button.appendChild(document.createTextNode(category.name));
     filters.appendChild(button);
   });
   gallery.insertAdjacentElement("beforebegin", filters);
@@ -73,37 +73,38 @@ const createFiltersHtml = (categories) => {
 
 const filterGallery = (filter) => {
   const gallery = new Set(document.querySelectorAll(".gallery figure"));
+  console.log(filter);
 
   gallery.forEach((element) => {
-    filter === "Tous" || element.className.split(" ")[0] === filter
+    // Rappel : classname = "categoryId-XXX workId-XXX"
+    filter == 0 || element.className.split(" ")[0] === "categoryId-" + filter
       ? element.removeAttribute("style")
       : element.setAttribute("style", "display:none");
   });
 };
 
-const selectFilter = (currentlySelectedFilter, filter) => {
+const selectFilter = (formerSelectedFilter, filter) => {
   const filterButtons = document.getElementsByClassName("filterButton");
-  if (filter === currentlySelectedFilter) return;
-  currentlySelectedFilter = filter;
+  if (filter === formerSelectedFilter) return;
 
   for (let i = 0; i < filterButtons.length; i++) {
     const element = filterButtons[i];
-    element.getAttribute("name") === currentlySelectedFilter
+    element.getAttribute("value") === filter
       ? element.setAttribute("class", "filterButton selected")
       : element.setAttribute("class", "filterButton");
   }
 
-  filterGallery(filter.split(" ")[0]);
+  filterGallery(filter);
 };
 
 const handleFilters = () => {
-  let currentlySelectedFilter = "Tous";
+  let selectedFilter = 0;
   const filterButtons = document.getElementsByClassName("filterButton");
 
   for (let i = 0; i < filterButtons.length; i++) {
-    const filter = filterButtons[i].getAttribute("name");
+    const filter = filterButtons[i].getAttribute("value");
     filterButtons[i].addEventListener("click", () => {
-      selectFilter(currentlySelectedFilter, filter);
+      selectFilter(selectedFilter, filter);
     });
   }
 };
@@ -114,9 +115,9 @@ const displayFilters = (categories) => {
 };
 
 const getInUseCategories = (workList) => {
-  const categories = ["Tous"];
+  const categories = [{ id: 0, name: "Tous" }];
   workList.forEach((work) => {
-    if (categories.includes(work.category.name) === false) categories.push(work.category.name);
+    if (!categories.find((e) => e.id == work.category.id)) categories.push(work.category);
   });
   return categories;
 };
