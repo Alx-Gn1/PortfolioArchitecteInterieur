@@ -99,27 +99,22 @@ export const deleteWork = async (id) => {
     Authorization: "Bearer " + userToken,
   });
 
-  const deleteWorkRes = await fetch("http://localhost:5678/api/works/" + id, {
+  await fetch("http://localhost:5678/api/works/" + id, {
     headers,
     method: "DELETE",
   }).then((res) => {
     if (res.status == 200 || res.status == 204) {
       deleteWorkFromDOM(id);
-      return res;
     } else if (res.status == 401) {
       alert("401 - Accès non autorisé");
     } else {
       alert("Une erreur inconnue est survenue : " + res?.status + res?.statusText);
     }
-    return res;
   });
-
-  return deleteWorkRes;
 };
 
 export const postWork = async (formData) => {
   const userToken = sessionStorage.getItem("userToken");
-
   const body = formData;
   const headers = new Headers({
     Accept: "application/json",

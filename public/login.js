@@ -23,33 +23,6 @@ const displayErrorMessage = (message) => {
 
 const clearErrorMessage = () => displayErrorMessage(null);
 
-const loginUser = async (email, password) => {
-  const loginHeaders = new Headers({ "content-type": "application/json" });
-  const fetchConfig = {
-    headers: loginHeaders,
-    body: JSON.stringify({ email, password }),
-    method: "POST",
-  };
-
-  const response = await fetch("http://localhost:5678/api/users/login", fetchConfig).then((res) => {
-    if (res.status === 401 || res.status === 404) {
-      displayErrorMessage("Erreur dans l'identifiant ou le mot de passe");
-      return null;
-    } else {
-      return res.json();
-    }
-  });
-
-  if (response?.token) {
-    sessionStorage.setItem("userToken", response.token);
-    window.location.replace("/");
-  }
-};
-
-//
-
-//
-
 const emailInput = form.email;
 const passwordInput = form.password;
 
@@ -71,3 +44,26 @@ form.addEventListener("submit", (event) => {
     loginUser(email, password);
   }
 });
+
+async function loginUser(email, password) {
+  const loginHeaders = new Headers({ "content-type": "application/json" });
+  const fetchConfig = {
+    headers: loginHeaders,
+    body: JSON.stringify({ email, password }),
+    method: "POST",
+  };
+
+  const response = await fetch("http://localhost:5678/api/users/login", fetchConfig).then((res) => {
+    if (res.status === 401 || res.status === 404) {
+      displayErrorMessage("Erreur dans l'identifiant ou le mot de passe");
+      return null;
+    } else {
+      return res.json();
+    }
+  });
+
+  if (response?.token) {
+    sessionStorage.setItem("userToken", response.token);
+    window.location.replace("/");
+  }
+}

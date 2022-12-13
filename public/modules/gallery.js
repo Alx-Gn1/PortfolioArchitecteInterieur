@@ -16,7 +16,7 @@ const displayWorkGallery = (workList) => {
   // Check if there is already a gallery, do not generate 2 time the same image/work
   const imagesAlreadyInGallery = new Set([]);
   for (const child of gallery.children) {
-    // Rappel : image class = " ...workId-XXXX"
+    // Rappel : image figure class = " ...workId-XXXX"
     const imageId = Number(child.getAttribute("class").split("-").pop());
     imagesAlreadyInGallery.add(imageId);
   }
@@ -73,10 +73,9 @@ const createFiltersHtml = (categories) => {
 
 const filterGallery = (filter) => {
   const gallery = new Set(document.querySelectorAll(".gallery figure"));
-  console.log(filter);
 
   gallery.forEach((element) => {
-    // Rappel : classname = "categoryId-XXX workId-XXX"
+    // Rappel : class="categoryId-XXX workId-XXX"
     filter == 0 || element.className.split(" ")[0] === "categoryId-" + filter
       ? element.removeAttribute("style")
       : element.setAttribute("style", "display:none");
@@ -87,14 +86,14 @@ const selectFilter = (formerSelectedFilter, filter) => {
   const filterButtons = document.getElementsByClassName("filterButton");
   if (filter === formerSelectedFilter) return;
 
+  filterGallery(filter);
+
   for (let i = 0; i < filterButtons.length; i++) {
     const element = filterButtons[i];
     element.getAttribute("value") === filter
       ? element.setAttribute("class", "filterButton selected")
       : element.setAttribute("class", "filterButton");
   }
-
-  filterGallery(filter);
 };
 
 const handleFilters = () => {

@@ -34,6 +34,7 @@ const listenFormResults = () => {
   const imageInput = document.getElementById("imageInput");
   const titleInput = document.getElementById("titleInput");
   const categoryInput = document.getElementById("categoryInput");
+  const submitAnim = submitLoadingAnimation();
   //
   imageInput.addEventListener("change", () => {
     const image = imageInput.files[0];
@@ -49,8 +50,6 @@ const listenFormResults = () => {
 
     setimageBackground(image);
   });
-
-  const submitAnim = submitLoadingAnimation();
 
   form.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -174,11 +173,7 @@ export const createModalGallery = (workList) => {
 
     const deleteButton = document.createElement("button");
     deleteButton.addEventListener("click", () => {
-      deleteWork(work.id).then((res) => {
-        if (res.status == 200 || res.status == 204) {
-          imageBox.remove();
-        }
-      });
+      deleteWork(work.id);
     });
 
     const trashIcon = document.createElement("i");
