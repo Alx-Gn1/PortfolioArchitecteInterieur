@@ -82,9 +82,8 @@ const filterGallery = (filter) => {
   });
 };
 
-const selectFilter = (formerSelectedFilter, filter) => {
+const selectFilter = (filter) => {
   const filterButtons = document.getElementsByClassName("filterButton");
-  if (filter === formerSelectedFilter) return;
 
   filterGallery(filter);
 
@@ -97,13 +96,12 @@ const selectFilter = (formerSelectedFilter, filter) => {
 };
 
 const handleFilters = () => {
-  let selectedFilter = 0;
   const filterButtons = document.getElementsByClassName("filterButton");
 
   for (let i = 0; i < filterButtons.length; i++) {
     const filter = filterButtons[i].getAttribute("value");
     filterButtons[i].addEventListener("click", () => {
-      selectFilter(selectedFilter, filter);
+      selectFilter(filter);
     });
   }
 };
