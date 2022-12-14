@@ -1,3 +1,4 @@
+import { ApiUrl } from "../Constants/Api.js";
 import { displayWorkGallery, getWorks } from "./gallery.js";
 import { createModalGallery } from "./modal.js";
 
@@ -20,11 +21,9 @@ export const setimageBackground = (image) => {
     "background-image : url(" + window.URL.createObjectURL(image) + "); padding:0"
   );
 
-  // Create a label so the image re-open the file input
+  // invisible input on top of image to re-open the file input
   const invisibleInput = document.getElementById("imageInvisibleInput");
-  invisibleInput.setAttribute("style", "display:block");
-
-  // imgInputContainer.setAttribute("style", "background-image : url(" + window.URL.createObjectURL(image) + ")");
+  invisibleInput.classList.add("d-block");
   imgInputContainer.setAttribute("class", "hideChildren");
 };
 
@@ -32,8 +31,8 @@ export const resetForm = () => {
   const imgInputContainer = document.getElementById("imgInputContainer");
   const invisibleInput = document.getElementById("imageInvisibleInput");
   imgInputContainer.removeAttribute("style");
-  imgInputContainer.removeAttribute("class");
-  invisibleInput.removeAttribute("style");
+  imgInputContainer.classList.remove("hideChildren");
+  invisibleInput.classList.remove("d-block");
 
   const form = document.getElementById("addPictureForm");
   form.reset();
@@ -99,13 +98,13 @@ export const deleteWork = async (id) => {
     Authorization: "Bearer " + userToken,
   });
 
-  await fetch("http://localhost:5678/api/works/" + id, {
+  await fetch(ApiUrl + "/works/" + id, {
     headers,
     method: "DELETE",
   }).then((res) => {
-    if (res.status == 200 || res.status == 204) {
+    if (res.status === 200 || res.status === 204) {
       deleteWorkFromDOM(id);
-    } else if (res.status == 401) {
+    } else if (res.status === 401) {
       alert("401 - Accès non autorisé");
     } else {
       alert("Une erreur inconnue est survenue : " + res?.status + res?.statusText);
@@ -121,16 +120,16 @@ export const postWork = async (formData) => {
     Authorization: "Bearer " + userToken,
   });
 
-  const postWorkRes = await fetch("http://localhost:5678/api/works", {
+  const postWorkRes = await fetch(ApiUrl + "/works", {
     headers,
     body,
     method: "POST",
   }).then((res) => {
-    if (res.status == 201) {
+    if (res.status === 201) {
       return res;
-    } else if (res.status == 400) {
+    } else if (res.status === 400) {
       alert("400 - Bad Request");
-    } else if (res.status == 401) {
+    } else if (res.status === 401) {
       alert("401 - Accès non autorisé");
     } else {
       alert("Une erreur inconnue est survenue : " + res?.status + res?.statusText);
@@ -148,9 +147,9 @@ export const successWorkUploadAnim = () => {
   successLogo.setAttribute("class", "fa-regular fa-circle-check successLogo");
   submitFormButton.after(successLogo);
   setTimeout(() => {
-    successLogo.style = "bottom:80px";
+    successLogo.classList.add("up-movement");
   }, 1);
   setTimeout(() => {
-    successLogo.style = "bottom:80px;opacity:0";
+    successLogo.classList.add("hide");
   }, 100);
 };

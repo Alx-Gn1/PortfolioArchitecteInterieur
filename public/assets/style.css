@@ -329,7 +329,7 @@ button {
   font-weight: 600;
   color: white;
 }
-#editHeader {
+.editHeader {
   position: absolute;
   top: 0px;
   left: 0px;
@@ -342,18 +342,18 @@ button {
   margin: 0px;
   height: 48px;
 }
-#editHeader p {
+.editHeader p {
   color: white;
   margin-right: 24px;
 }
-#editHeader button {
+.editHeader button {
   font-family: "Work Sans";
 }
-#editHeader button[name="confirmChange"] {
+.editHeader button[name="confirmChange"] {
   font-weight: 700;
   background-color: white;
 }
-#editHeader button[name="discardChange"] {
+.editHeader button[name="discardChange"] {
   background-color: rgb(26, 26, 26);
   color: rgb(255, 101, 101);
   text-decoration: underline;
@@ -463,7 +463,6 @@ h3 {
 
 #addPictureForm {
   width: 100%;
-  display: none;
   flex-direction: column;
   justify-content: space-between;
 }
@@ -537,7 +536,7 @@ h3 {
   /* opacity: 0; */
   display: none;
 }
-#imageInvisibleInput {
+.InvisibleInput {
   display: none;
   width: -webkit-fill-available;
   height: 212px;
@@ -595,10 +594,6 @@ select {
 }
 .delGalleryCancel:hover {
   background-color: rgb(209, 209, 209);
-}
-
-#saveChange {
-  display: none;
 }
 .successLogo {
   font-size: 24px;

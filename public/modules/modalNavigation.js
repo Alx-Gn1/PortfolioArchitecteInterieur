@@ -10,11 +10,11 @@ export const closeModal = () => {
 
 const hideModalGallery = () => {
   const modalGallery = document.querySelector(".modalGallery");
-  modalGallery.style = "display : none";
+  modalGallery.classList.add("d-none");
 };
 const showModalGallery = () => {
   const modalGallery = document.querySelector(".modalGallery");
-  modalGallery.removeAttribute("style");
+  modalGallery.classList.remove("d-none");
 };
 
 export const modalNavigate = () => {
@@ -28,24 +28,24 @@ export const modalNavigate = () => {
     toForm: () => {
       modalTitle.replaceChildren("Ajout photo");
 
-      goBackButton.removeAttribute("style");
+      goBackButton.classList.remove("hide");
 
-      saveChangeButton.style = "display : block";
-      addPictureForm.style = "display : flex";
+      saveChangeButton.classList.add("d-block");
+      addPictureForm.classList.add("class", "d-flex");
 
-      deleteGalleryButton.style = "display : none";
-      addPictureButton.style = "display : none";
+      deleteGalleryButton.classList.add("d-none");
+      addPictureButton.classList.add("d-none");
       hideModalGallery();
     },
     toGallery: () => {
       modalTitle.replaceChildren("Galerie photo");
 
-      goBackButton.style = "opacity : 0";
+      goBackButton.classList.add("hide");
 
-      deleteGalleryButton.removeAttribute("style");
-      addPictureButton.removeAttribute("style");
-      addPictureForm.removeAttribute("style");
-      saveChangeButton.removeAttribute("style");
+      saveChangeButton.classList.remove("d-block");
+      addPictureForm.classList.remove("d-flex");
+      deleteGalleryButton.classList.remove("d-none");
+      addPictureButton.classList.remove("d-none");
       showModalGallery();
     },
   };
@@ -54,7 +54,7 @@ export const modalNavigate = () => {
 export const setupModalNavigation = () => {
   // Close the modal
   window.onclick = (e) => {
-    if (e.target == modal) {
+    if (e.target === modal) {
       closeModal();
     }
   };
@@ -69,7 +69,7 @@ export const setupModalNavigation = () => {
   });
   // Nav back to gallery
   const goBackButton = document.querySelector(".modalHeader .fa-arrow-left");
-  goBackButton.setAttribute("style", "opacity : 0");
+  goBackButton.classList.add("hide");
   goBackButton.addEventListener("click", () => {
     modalNavigate().toGallery();
   });

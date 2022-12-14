@@ -10,9 +10,11 @@ import {
   resetForm,
   refreshGalleriesAfterChange,
 } from "./handleForm.js";
+import { ApiUrl } from "../Constants/Api.js";
+import { getWorks } from "./gallery.js";
 
 const getCategories = async () => {
-  const categories = await fetch("http://localhost:5678/api/categories", {
+  const categories = await fetch(ApiUrl + "/categories", {
     method: "GET",
   }).then((res) => res.json());
   return categories;
@@ -73,7 +75,7 @@ const listenFormResults = () => {
     }
 
     postWork(formData).then((res) => {
-      if (res.status == 201) {
+      if (res.status === 201) {
         submitAnim.stop();
         successWorkUploadAnim();
         resetForm();
@@ -87,7 +89,7 @@ const listenFormResults = () => {
   });
 };
 
-const setupDeleteGalleryButton = (workList) => {
+const setupDeleteGalleryButton = () => {
   const delButton = document.getElementById("deleteGallery");
 
   delButton.addEventListener("click", () => {
@@ -118,8 +120,10 @@ const setupDeleteGalleryButton = (workList) => {
 
     confirmButton.addEventListener("click", () => {
       closeModal();
-      workList.forEach((work) => {
-        deleteWork(work.id);
+      getWorks().then((workList) => {
+        workList.forEach((work) => {
+          deleteWork(work.id);
+        });
       });
     });
     cancelButton.addEventListener("click", () => {
@@ -198,7 +202,7 @@ export const handleModal = async (workList) => {
   // Event listeners to close the modal & to navigate beetween gallery & form
   createModalGallery(workList);
   setupModalNavigation();
-  setupDeleteGalleryButton(workList);
+  setupDeleteGalleryButton();
 
   addCategoriesToForm(categories);
   listenFormResults();

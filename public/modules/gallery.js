@@ -1,8 +1,10 @@
+import { ApiUrl } from "../Constants/Api.js";
+
 // Get works from api
 const getWorks = async () => {
   const getWorksHeaders = new Headers({ "content-type": "application/json" });
   // get the work list
-  const workList = await fetch("http://localhost:5678/api/works", {
+  const workList = await fetch(ApiUrl + "/works", {
     method: "GET",
     headers: getWorksHeaders,
   }).then((res) => res.json());
@@ -60,9 +62,9 @@ const createFiltersHtml = (categories) => {
   const filters = document.createElement("div");
   filters.setAttribute("class", "filters");
   categories.forEach((category) => {
-    const styleClass = category.name === "Tous" ? "filterButton selected" : "filterButton";
+    const elementClass = category.name === "Tous" ? "filterButton selected" : "filterButton";
     const button = document.createElement("button");
-    button.setAttribute("class", styleClass);
+    button.setAttribute("class", elementClass);
     button.setAttribute("name", category.name);
     button.setAttribute("value", category.id);
     button.appendChild(document.createTextNode(category.name));
@@ -76,9 +78,9 @@ const filterGallery = (filter) => {
 
   gallery.forEach((element) => {
     // Rappel : class="categoryId-XXX workId-XXX"
-    filter == 0 || element.className.split(" ")[0] === "categoryId-" + filter
-      ? element.removeAttribute("style")
-      : element.setAttribute("style", "display:none");
+    filter === "0" || element.className.split(" ")[0] === "categoryId-" + filter
+      ? element.classList.remove("d-none")
+      : element.classList.add("d-none");
   });
 };
 
@@ -114,7 +116,7 @@ const displayFilters = (categories) => {
 const getInUseCategories = (workList) => {
   const categories = [{ id: 0, name: "Tous" }];
   workList.forEach((work) => {
-    if (!categories.find((e) => e.id == work.category.id)) categories.push(work.category);
+    if (!categories.find((e) => e.id === work.category.id)) categories.push(work.category);
   });
   return categories;
 };

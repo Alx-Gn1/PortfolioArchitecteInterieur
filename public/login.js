@@ -1,3 +1,5 @@
+import { ApiUrl } from "./Constants/Api.js";
+
 const form = document.forms["loginForm"];
 
 const displayErrorMessage = (message) => {
@@ -5,9 +7,8 @@ const displayErrorMessage = (message) => {
 
   // Delete former message
   const errorMessage = document.querySelector(".error");
-  if (errorMessage) {
-    errorMessage.remove();
-  }
+  if (errorMessage) errorMessage.remove();
+
   if (message) {
     // Create html for error message
     const container = document.createElement("div");
@@ -29,12 +30,8 @@ const passwordInput = form.password;
 let email;
 let password;
 
-emailInput.addEventListener("input", (e) => {
-  email = e.target.value;
-});
-passwordInput.addEventListener("input", (e) => {
-  password = e.target.value;
-});
+emailInput.addEventListener("input", (e) => (email = e.target.value));
+passwordInput.addEventListener("input", (e) => (password = e.target.value));
 
 form.addEventListener("submit", (event) => {
   event.preventDefault();
@@ -53,7 +50,7 @@ async function loginUser(email, password) {
     method: "POST",
   };
 
-  const response = await fetch("http://localhost:5678/api/users/login", fetchConfig).then((res) => {
+  const response = await fetch(ApiUrl + "/users/login", fetchConfig).then((res) => {
     if (res.status === 401 || res.status === 404) {
       displayErrorMessage("Erreur dans l'identifiant ou le mot de passe");
       return null;

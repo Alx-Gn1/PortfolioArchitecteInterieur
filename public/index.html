@@ -9,11 +9,12 @@
         <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet">
         <meta name="description" content="">
         <link rel="stylesheet" href="./assets/style.css">
+        <link rel="stylesheet" href="./assets/dynamicStyles.css">
         <script src="index.js" type="module"></script>
         <script src="https://kit.fontawesome.com/6bdb92acba.js" crossorigin="anonymous"></script>
     </head>
     <body>
-        <div id="editHeader">
+        <div id="editHeader" class="editHeader">
             <p>
                 <i class="fa-regular fa-pen-to-square"></i>
                 Mode édition
@@ -23,12 +24,17 @@
         <dialog id="modal">
             <div class="modalContainer">
                 <div class="modalHeader">
-                    <i class="fa-solid fa-arrow-left"></i>
+                    <i class="fa-solid fa-arrow-left back"></i>
                     <i class="fa-solid fa-xmark"></i>
                 </div>
                 <h3>Galerie photo</h3>
                 <div class="modalGallery"></div>
-                <form action="#" id="addPictureForm" method="post">
+                <form
+                    action="#"
+                    id="addPictureForm"
+                    method="post"
+                    class="d-none"
+                >
                     <div id="imgInputContainer">
                         <label for="imageInput">
                             <i class="fa-regular fa-image"></i>
@@ -42,7 +48,7 @@
                         >
                         <label for="imageInput">+ Ajouter photo</label>
                         <label for="imageInput">jpg, png : 4mo max</label>
-                        <label for="imageInput" id="imageInvisibleInput"></label>
+                        <label for="imageInput" id="imageInvisibleInput" class="InvisibleInput"></label>
                     </div>
                     <label for="titleInput">Titre</label>
                     <input
@@ -66,7 +72,7 @@
                 </form>
                 <div class="separator"></div>
                 <button
-                    class="modalButton"
+                    class="modalButton d-none"
                     id="saveChange"
                     form="addPictureForm"
                     type="submit"

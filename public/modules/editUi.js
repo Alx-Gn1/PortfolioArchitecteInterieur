@@ -6,10 +6,10 @@ export const showEditUi = () => {
   const header = document.querySelector("header");
   const editButtons = document.querySelectorAll(".editButton");
 
-  editHeader.style = "display : flex";
-  header.style = "margin: 80px 0";
+  editHeader.classList.add("d-flex");
+  header.classList.add("header-margin");
   editButtons.forEach((e) => {
-    e.style = "display: block";
+    e.classList.add("d-block");
   });
 
   const editGalleryButton = document.getElementById("editGallery");
@@ -22,16 +22,16 @@ export const hideEditUi = () => {
   const editHeader = document.getElementById("editHeader");
   const header = document.querySelector("header");
   const editButtons = document.querySelectorAll(".editButton");
-  editHeader.style = "display : none";
-  header.removeAttribute("style");
+  editHeader.classList.remove("d-flex");
+  header.classList.remove("header-margin");
   editButtons.forEach((e) => {
-    e.removeAttribute("style");
+    e.classList.remove("d-block");
   });
 };
 
 export const showLogoutButton = () => {
   const loginButton = document.querySelector("a[href='./login']");
-  loginButton.style = "display : none";
+  loginButton.classList.add("d-none");
   const logoutButton = document.createElement("a");
   logoutButton.appendChild(document.createTextNode("logout"));
   loginButton.insertAdjacentElement("beforebegin", logoutButton);
@@ -43,8 +43,8 @@ export const showLogoutButton = () => {
       displayFilters(getInUseCategories(workList));
     });
 
-    logoutButton.style = "display : none";
-    loginButton.removeAttribute("style");
+    logoutButton.remove();
+    loginButton.classList.remove("d-none");
     hideEditUi();
   });
 };
