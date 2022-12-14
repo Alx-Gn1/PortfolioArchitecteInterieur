@@ -2,16 +2,26 @@ import { ApiUrl } from "../Constants/Api.js";
 import { displayWorkGallery, getWorks } from "./gallery.js";
 import { createModalGallery } from "./modal.js";
 
+/**
+ * Vérifie que l'image est de type jpg/png et 4mo maximum
+ * @param {{name:String, size:Number, type: String}} image
+ * @returns
+ */
 export const verifyImage = (image) => {
   if ((image && image.type === "image/png") || (image && image.type === "image/jpeg")) {
     if (image.size <= 4194304) {
       return true;
     }
-    return "L'image doit peser 4Mo maximum !\n\nTaille actuelle: " + (image.size / 1048576).toFixed(2) + "Mo";
+    return "L'image doit peser 4mo maximum !\n\nTaille actuelle: " + (image.size / 1048576).toFixed(2) + "mo";
   }
   return "L'image doit être au format png/jpg";
 };
 
+/**
+ * Définit une image comme background de l'image input (à la place du bouton "Ajouter une image")
+ * @param {{name:String, size:Number, type: String}} image
+ * @returns
+ */
 export const setimageBackground = (image) => {
   const imgInputContainer = document.getElementById("imgInputContainer");
 
@@ -27,6 +37,9 @@ export const setimageBackground = (image) => {
   imgInputContainer.setAttribute("class", "hideChildren");
 };
 
+/**
+ * Supprime l'image de fond de l'image input et execute la fonction reset() sur l'élément form
+ */
 export const resetForm = () => {
   const imgInputContainer = document.getElementById("imgInputContainer");
   const invisibleInput = document.getElementById("imageInvisibleInput");
@@ -38,7 +51,15 @@ export const resetForm = () => {
   form.reset();
 };
 
+/**
+ * Passe le nom de l'image en title case
+ * @param {{name:String, size:Number, type: String}} image
+ * @returns
+ */
 export const formatImageName = (image) => {
+  console.log(typeof image);
+  console.log(typeof image);
+  console.log(typeof image.name);
   const splittedName = image.name.split(".");
   splittedName.pop();
 
@@ -50,9 +71,13 @@ export const formatImageName = (image) => {
     .replace(/[0-9]/g, "")
     .slice(0, 40);
 
-  return imgName.replace(/\w\S*/g, (word) => word.charAt(0).toUpperCase() + word.substr(1).toLowerCase());
+  return imgName.replace(/\w\S*/g, (word) => word.charAt(0).toUpperCase() + word.substring(1).toLowerCase());
 };
 
+/**
+ * Animation lorsqu'on envoie une image vers le serveur backend et qu'on attend une réponse
+ * @returns {{start: Function, stop: Function}} Fonction pour lancer l'animation et pour la stopper
+ */
 export const submitLoadingAnimation = () => {
   const submitButton = document.getElementById("saveChange");
 
@@ -77,6 +102,10 @@ export const submitLoadingAnimation = () => {
   };
 };
 
+/**
+ * Actualise la galerie de la page d'acceuil et celle de la modale si de nouveaux projets ont été ajoutés
+ * @returns
+ */
 export const refreshGalleriesAfterChange = async () => {
   const workList = await getWorks();
   displayWorkGallery(workList);
@@ -84,6 +113,9 @@ export const refreshGalleriesAfterChange = async () => {
   return;
 };
 
+/**
+ * @param {Number} id
+ */
 const deleteWorkFromDOM = (id) => {
   const itemToDelete = document.querySelectorAll(".workId-" + id);
   itemToDelete.forEach((element) => {
@@ -91,6 +123,10 @@ const deleteWorkFromDOM = (id) => {
   });
 };
 
+/**
+ * Supprime un projet via l'api
+ * @param {Number} id
+ */
 export const deleteWork = async (id) => {
   const userToken = sessionStorage.getItem("userToken");
   const headers = new Headers({
@@ -112,6 +148,11 @@ export const deleteWork = async (id) => {
   });
 };
 
+/**
+ * Ajoute un projet via l'api
+ * @param {FormData} formData
+ * @returns
+ */
 export const postWork = async (formData) => {
   const userToken = sessionStorage.getItem("userToken");
   const body = formData;
@@ -140,6 +181,9 @@ export const postWork = async (formData) => {
   return postWorkRes;
 };
 
+/**
+ * Animation quand on projet a bien été ajouté au serveur backend
+ */
 export const successWorkUploadAnim = () => {
   const submitFormButton = document.getElementById("saveChange");
 

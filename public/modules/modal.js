@@ -20,6 +20,10 @@ const getCategories = async () => {
   return categories;
 };
 
+/**
+ * Créer les élements html pour chaque catégorie sélectionnable dans le formulaire
+ * @param {{id:Number, name:String}[]} categories
+ */
 const addCategoriesToForm = (categories) => {
   const categorySelector = document.getElementById("categoryInput");
   // generate option for category select element
@@ -31,6 +35,10 @@ const addCategoriesToForm = (categories) => {
   });
 };
 
+/**
+ * Gère les event listeners à éxecuter quand on rentre quelque chose dans un champ du formulaire
+ * (actualisation de l'image input, et fonction submit pour envoyer les formData à l'api)
+ */
 const listenFormResults = () => {
   const form = document.getElementById("addPictureForm");
   const imageInput = document.getElementById("imageInput");
@@ -89,6 +97,9 @@ const listenFormResults = () => {
   });
 };
 
+/**
+ * Bouton qui supprime **Tous** les projets présents dans la galerie
+ */
 const setupDeleteGalleryButton = () => {
   const delButton = document.getElementById("deleteGallery");
 
@@ -142,6 +153,11 @@ const setupDeleteGalleryButton = () => {
   });
 };
 
+/**
+ * Génère les éléments html pour chaque projet,
+ * rajoute le tout à la galerie
+ * @param {{category: {id: Number, name: String}, id: Number, imageUrl: String, title: String}[]} workList
+ */
 export const createModalGallery = (workList) => {
   const modalGallery = document.querySelector(".modalGallery");
 
@@ -197,6 +213,10 @@ export const createModalGallery = (workList) => {
   });
 };
 
+/**
+ * Fonction principale pour le fonctionnement de la modale
+ * @param {{category: {id: Number, name: String}, id: Number, imageUrl: String, title: String}[]} workList
+ */
 export const handleModal = async (workList) => {
   const categories = await getCategories();
   // Event listeners to close the modal & to navigate beetween gallery & form

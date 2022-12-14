@@ -17,6 +17,10 @@ const showModalGallery = () => {
   modalGallery.classList.remove("d-none");
 };
 
+/**
+ *
+ * @returns Fonctions permettants d'aller vers la page avec le formulaire ou celle avec la galerie de projets
+ */
 export const modalNavigate = () => {
   const goBackButton = document.querySelector(".modalHeader .fa-arrow-left");
   const saveChangeButton = document.getElementById("saveChange");
@@ -51,6 +55,9 @@ export const modalNavigate = () => {
   };
 };
 
+/**
+ * Principaux event listeners pour fermer la modale, ou se déplacer entre la galerie et le formulaire
+ */
 export const setupModalNavigation = () => {
   // Close the modal
   window.onclick = (e) => {

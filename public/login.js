@@ -2,6 +2,10 @@ import { ApiUrl } from "./Constants/Api.js";
 
 const form = document.forms["loginForm"];
 
+/**
+ *
+ * @param {String} message
+ */
 const displayErrorMessage = (message) => {
   // If no message is given to the function, it clear all error message
 
@@ -42,6 +46,11 @@ form.addEventListener("submit", (event) => {
   }
 });
 
+/**
+ *
+ * @param {String} email
+ * @param {String} password
+ */
 async function loginUser(email, password) {
   const loginHeaders = new Headers({ "content-type": "application/json" });
   const fetchConfig = {

@@ -1,6 +1,9 @@
 import { ApiUrl } from "../Constants/Api.js";
 
-// Get works from api
+/**
+ * Récupère la liste des projets via l'api
+ * @returns {Promise<Object[]>} workList
+ */
 const getWorks = async () => {
   const getWorksHeaders = new Headers({ "content-type": "application/json" });
   // get the work list
@@ -12,6 +15,11 @@ const getWorks = async () => {
   return workList;
 };
 
+/**
+ * Génère les éléments html pour chaque projet,
+ * rajoute le tout à la galerie
+ * @param {{category: {id: Number, name: String}, id: Number, imageUrl: String, title: String}[]} workList
+ */
 const displayWorkGallery = (workList) => {
   const gallery = document.querySelector(".gallery");
 
@@ -55,7 +63,10 @@ const displayWorkGallery = (workList) => {
   });
 };
 
-// Create filter & gallery elements
+/**
+ * Créer les élements html pour chaque filtre et les ajoute au DOM
+ * @param {{id: number;name: string;}[]} categories
+ */
 const createFiltersHtml = (categories) => {
   const gallery = document.querySelector(".gallery");
 
@@ -73,17 +84,28 @@ const createFiltersHtml = (categories) => {
   gallery.insertAdjacentElement("beforebegin", filters);
 };
 
+/**
+ * Récupère tous les élements présents dans la galerie
+ * @example Si le filtre sélectionné est "3" on affiche tous les élements avec le className "categoryId-3", on cache tous les autres
+ * @example Le filtre "0" équivaut à avoir sélectionné le bouton "Tous", donc affiche toute la galerie
+ * @param {Number} filter
+ */
 const filterGallery = (filter) => {
   const gallery = new Set(document.querySelectorAll(".gallery figure"));
 
   gallery.forEach((element) => {
     // Rappel : class="categoryId-XXX workId-XXX"
-    filter === "0" || element.className.split(" ")[0] === "categoryId-" + filter
+    filter === 0 || element.className.split(" ")[0] === "categoryId-" + filter
       ? element.classList.remove("d-none")
       : element.classList.add("d-none");
   });
 };
 
+/**
+ * Modifie les classes css en fonction de si le bouton est selectionné ou non
+ * Exécute la fonction pour filtrer la galerie
+ * @param {Number} filter
+ */
 const selectFilter = (filter) => {
   const filterButtons = document.getElementsByClassName("filterButton");
 
@@ -91,28 +113,42 @@ const selectFilter = (filter) => {
 
   for (let i = 0; i < filterButtons.length; i++) {
     const element = filterButtons[i];
-    element.getAttribute("value") === filter
-      ? element.setAttribute("class", "filterButton selected")
-      : element.setAttribute("class", "filterButton");
+    parseInt(element.getAttribute("value")) === filter
+      ? element.classList.add("selected")
+      : element.classList.remove("selected");
   }
 };
 
+/**
+ * Ajoute l'event listener pour lancer la fonction
+ * La valeur du click du bouton étant l'id de la catégorie à sélectionner
+ */
 const handleFilters = () => {
   const filterButtons = document.getElementsByClassName("filterButton");
 
   for (let i = 0; i < filterButtons.length; i++) {
-    const filter = filterButtons[i].getAttribute("value");
+    const filter = parseInt(filterButtons[i].getAttribute("value"));
     filterButtons[i].addEventListener("click", () => {
       selectFilter(filter);
     });
   }
 };
 
+/**
+ * Lance les fonctions pour créer les filtres et gérer le filtrage de la galerie
+ * @param {{id: number;name: string;}[]} categories
+ */
 const displayFilters = (categories) => {
   createFiltersHtml(categories);
   handleFilters();
 };
 
+/**
+ * Permet d'avoir une liste des catégories associées à 1 work/projet minimum
+ * Pour ne pas avoir de bouton filtre "Objet" s'il n'y a aucune photo object par exemple
+ * @param {{category: {id: Number, name: String}}[]} workList
+ * @returns
+ */
 const getInUseCategories = (workList) => {
   const categories = [{ id: 0, name: "Tous" }];
   workList.forEach((work) => {
