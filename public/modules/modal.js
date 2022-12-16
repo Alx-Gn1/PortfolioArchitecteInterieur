@@ -218,12 +218,13 @@ export const createModalGallery = (workList) => {
  * @param {{category: {id: Number, name: String}, id: Number, imageUrl: String, title: String}[]} workList
  */
 export const handleModal = async (workList) => {
-  const categories = await getCategories();
   // Event listeners to close the modal & to navigate beetween gallery & form
   createModalGallery(workList);
   setupModalNavigation();
   setupDeleteGalleryButton();
 
+  const categories = await getCategories();
   addCategoriesToForm(categories);
+
   listenFormResults();
 };

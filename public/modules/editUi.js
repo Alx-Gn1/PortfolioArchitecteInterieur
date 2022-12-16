@@ -29,6 +29,9 @@ export const hideEditUi = () => {
   });
 };
 
+/**
+ * Affiche le bouton de déconnection et gère le comportement en cas de déconnection de l'utilisateur
+ */
 export const showLogoutButton = () => {
   const loginButton = document.querySelector("a[href='./login']");
   loginButton.classList.add("d-none");

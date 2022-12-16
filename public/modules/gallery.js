@@ -145,8 +145,8 @@ const displayFilters = (categories) => {
 
 /**
  * Permet d'avoir une liste des catégories associées à 1 work/projet minimum
- * Pour ne pas avoir de bouton filtre "Objet" s'il n'y a aucune photo object par exemple
- * @param {{category: {id: Number, name: String}}[]} workList
+ * @example Si on a pas de projet dans la catégorie "Object", elle ne sera pas ajouté à la liste des catégories
+ * @param {Object[]} workList
  * @returns
  */
 const getInUseCategories = (workList) => {
