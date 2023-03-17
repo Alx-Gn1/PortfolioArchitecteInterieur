@@ -70,6 +70,6 @@ async function loginUser(email, password) {
 
   if (response?.token) {
     sessionStorage.setItem("userToken", response.token);
-    window.location.replace("/");
+    window.location.replace("/PortfolioArchitecteInterieur");
   }
 }
