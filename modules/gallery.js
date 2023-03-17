@@ -38,7 +38,7 @@ const displayWorkGallery = (workList) => {
     }
     // Creation d'un élément pour chaque projet
     const img = document.createElement("img");
-    fetch(work.imageUrl)
+    fetch(ApiUrl.slice(0, -4) + work.imageUrl)
       .then((res) => res.blob())
       .then((imageBlob) => {
         const imageObjectURL = URL.createObjectURL(imageBlob);

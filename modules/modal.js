@@ -176,7 +176,7 @@ export const createModalGallery = (workList) => {
     imageBox.setAttribute("class", "imageBox workId-" + work.id);
 
     const imageBackground = document.createElement("div");
-    fetch(work.imageUrl)
+    fetch(ApiUrl.slice(0, -4) + work.imageUrl)
       .then((res) => res.blob())
       .then((imageBlob) => {
         const imageObjectURL = URL.createObjectURL(imageBlob);
